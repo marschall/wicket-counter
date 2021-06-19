@@ -4,35 +4,27 @@ import java.math.BigInteger;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.wicketstuff.lambda.components.ComponentFactory;
 
 public class Counter extends WebPage {
-  
+
   private final IModel<BigInteger> count;
 
   public Counter() {
     this.count = new Model<>(BigInteger.ZERO);
     this.add(new Label("count", this.count));
-    this.add(new Link("increment"){
-
-      public void onClick() {
-        increment();
-      }});
-    this.add(new Link("decrement"){
-      
-      public void onClick() {
-        increment();
-      }});
+    this.add(ComponentFactory.link("increment", link -> this.increment()));
+    this.add(ComponentFactory.link("decrement", link -> this.decrement()));
   }
 
   void increment() {
-    count.setObject(count.getObject().add(BigInteger.ONE));
+    this.count.setObject(this.count.getObject().add(BigInteger.ONE));
   }
-  
+
   void decrement() {
-    count.setObject(count.getObject().subtract(BigInteger.ONE));
+    this.count.setObject(this.count.getObject().subtract(BigInteger.ONE));
   }
 
 }
